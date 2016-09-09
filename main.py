@@ -1,4 +1,4 @@
-from flask import Flask,jsonify
+from flask import Flask,render_template,redirect,url_for
 from helpers import insert_region_results,student_results
 from collections import OrderedDict
 from pymongo import MongoClient
@@ -25,15 +25,17 @@ COLLEGE_CODES = ['1mv']
 
 @app.route("/")
 def mainInit():
-	my_data = "Hello"      #store all the contents of db
-	insert_region_results(COLLEGE_CODES)
-	return my_data
+	return render_template('index.html')
+
+@app.route("/HomePage") #Ignore this route. Required for my system. Some stupis issue
+def stupidRedirect():
+	return redirect(url_for('mainInit'))
 
 @app.route("/api/oneStudent/<college_code>/<year>/<branch>/<int:regno>")
 def getOneStudent(college_code,year,branch,regno):
 	student = students.find_one({"usn" : (college_code+year+branch+str(regno).zfill(3)).upper()})
 	if student:
-		return dumps(student) #dumps is used to convert bson format of mongodb to json 
+		return dumps(student) #dumps is used to convert bson format of mongodb to json
 	else :
 		student = student_results(college_code,year,branch,regno)
 		db.students.insert_one(student)

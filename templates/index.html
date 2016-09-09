@@ -48,7 +48,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-light_blue.min.css">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles.css') }}">
     <style>
         .links line {
             stroke: #999;
@@ -80,7 +80,7 @@
         </header>
         <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
             <header class="demo-drawer-header">
-                <img src="images/user.jpg" class="demo-avatar">
+                <img src="{{ url_for('static',filename='images/user.jpg') }}" class="demo-avatar">
                 <span>hello@example.com</span>
             </header>
             <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
@@ -105,7 +105,7 @@
         </main>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.2.1/material.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.2.2/d3.min.js"></script>
     <script>
         var svg = d3.select("svg"),
             width = +svg.attr("width"),
@@ -120,7 +120,7 @@
             .force("charge", d3.forceManyBody())
             .force("center", d3.forceCenter(width / 2, height / 2));
 
-        d3.json("miserables.json", function(error, graph) {
+        d3.json("{{ url_for('static',filename='miserables.json') }}", function(error, graph) {
             if (error) throw error;
 
             var link = svg.append("g")
