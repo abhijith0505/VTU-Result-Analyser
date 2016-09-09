@@ -29,7 +29,7 @@ def page_not_found(e):
 
 @app.route("/")
 def mainInit():
-	return render_template('index.html')
+	return render_template('home.html')
 
 @app.route("/HomePage") #Ignore this route. Required for my system. Some stupid issue
 def stupidRedirect():
@@ -37,7 +37,7 @@ def stupidRedirect():
 
 @app.route("/api/oneStudent/<college_code>/<year>/<branch>/<int:regno>")
 def getOneStudent(college_code,year,branch,regno):
-	student = students.find_one({"usn" : (college_code + year 
+	student = students.find_one({"usn" : (college_code + year
 		+branch + str(regno).zfill(3)).upper()})
 	if student:
 		return dumps(student) #dumps is used to convert bson format of mongodb to json
@@ -53,7 +53,7 @@ def getOneCollege(college_code):
 		 return dumps(student)	#dumps is used to convert bson format of mongodb to json
 	else :
 		return render_template('error.html')
-		
+
 
 if __name__ == "__main__":
     app.run(debug = True)
