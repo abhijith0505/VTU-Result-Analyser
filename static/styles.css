@@ -17,6 +17,20 @@
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
 }
+.demo-card-wide.mdl-card {
+  width: 512px;
+  margin-right: auto;
+  margin-top: 175px;
+  margin-left: auto;
+}
+.demo-card-wide > .mdl-card__title {
+  color: #fff;
+  height: 176px;
+  background: #00BCD4;
+}
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
 .demo-avatar {
   width: 48px;
   height: 48px;

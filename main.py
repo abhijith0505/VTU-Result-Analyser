@@ -2,7 +2,7 @@ from flask import Flask,render_template,redirect,url_for
 from helpers import insert_region_results,student_results
 from collections import OrderedDict
 from pymongo import MongoClient
-import json
+import json, re
 from bson.json_util import dumps
 
 app = Flask(__name__)
@@ -23,23 +23,37 @@ KALABURGI_COLLEGE_CODES = ['3ae', '3bk', '3br', '3gf', '3gu', '3gn', '3kc', '3kb
 COLLEGE_CODES = ['1mv']
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('error.html')
+
 @app.route("/")
 def mainInit():
 	return render_template('index.html')
 
-@app.route("/HomePage") #Ignore this route. Required for my system. Some stupis issue
+@app.route("/HomePage") #Ignore this route. Required for my system. Some stupid issue
 def stupidRedirect():
 	return redirect(url_for('mainInit'))
 
 @app.route("/api/oneStudent/<college_code>/<year>/<branch>/<int:regno>")
 def getOneStudent(college_code,year,branch,regno):
-	student = students.find_one({"usn" : (college_code+year+branch+str(regno).zfill(3)).upper()})
+	student = students.find_one({"usn" : (college_code + year 
+		+branch + str(regno).zfill(3)).upper()})
 	if student:
 		return dumps(student) #dumps is used to convert bson format of mongodb to json
 	else :
 		student = student_results(college_code,year,branch,regno)
 		db.students.insert_one(student)
 		return student
+
+@app.route("/api/oneCollege/<college_code>")
+def getOneCollege(college_code):
+	student = students.find({"usn" : {'$regex': ''+re.escape(college_code.upper())}})
+	if any(student):
+		 return dumps(student)	#dumps is used to convert bson format of mongodb to json
+	else :
+		return render_template('error.html')
+		
 
 if __name__ == "__main__":
     app.run(debug = True)
