@@ -5,6 +5,8 @@ from lxml import etree, html
 import requests
 import urllib2
 import threading
+from bson.json_util import dumps
+
 
 NUM_OF_STUDENTS = 150
 RESPONSE_COUNT = 0
@@ -243,3 +245,22 @@ def insert_region_results_multithreaded(COLLEGE_CODES, num_threads=5):
     t = threading.Thread(target=insert_region_results, args=(COLLEGE_CODES[(i+1)*cpt:],))
     threads.append(t)
     t.start()
+
+
+def getOneStudentJson(college_code='1mv',year='14',branch='is',regno=45):
+    client = MongoClient()
+
+    db = client.results
+
+    students = db.students
+
+    student = students.find_one({"usn" : (college_code + year
+		+branch + str(regno).zfill(3)).upper()})
+
+    if student:
+		return dumps(student) #dumps is used to convert bson format of mongodb to json
+
+    else :
+		student = student_results(college_code,year,branch,regno)
+		db.students.insert_one(student)
+		return dumps(student)

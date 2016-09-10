@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block main %}
+
+
+
+
+<table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+  <tr>
+    <td>
+      Name : {{ data.name }}
+    </td>
+    <td>
+      USN : {{ data.usn }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Semester : {{ data.semester }}
+    </td>
+    <td>
+      Result : {{ data.result }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Total Marks : {{ data.total_marks }}
+    </td>
+  </tr>
+</table>
+
+{% include 'components/resultsTable.html' %}
+
+
+{% endblock %}

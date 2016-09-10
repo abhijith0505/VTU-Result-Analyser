@@ -1,0 +1,42 @@
+<table class="mdl-data-table mdl-js-data-table  mdl-shadow--2dp">
+  <thead>
+    <tr>
+      <th class="mdl-data-table__cell--non-numeric">
+        Subject
+      </th>
+      <th>
+        External
+      </th>
+      <th>
+        Internal
+      </th>
+      <th>
+        Total
+      </th>
+      <th>
+        Result
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for Subject in data.subject_marks%}
+      <tr>
+        <td class="mdl-data-table__cell--non-numeric">
+          {{Subject.subject}}
+        </td>
+        <td>
+          {{Subject.external}}
+        </td>
+        <td>
+          {{Subject.internal}}
+        </td>
+        <td>
+          {{Subject.total}}
+        </td>
+        <td>
+          {{Subject.result}}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
