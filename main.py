@@ -1,8 +1,8 @@
-from flask import Flask,render_template,redirect,url_for
-from helpers import insert_region_results,student_results
+from flask import Flask,render_template,redirect,url_for,json
+from helpers import insert_region_results,student_results,getOneStudentJson
 from collections import OrderedDict
 from pymongo import MongoClient
-import json, re
+import json, re, requests
 from bson.json_util import dumps
 
 app = Flask(__name__)
@@ -36,7 +36,26 @@ def page_not_found(e):
 def mainInit():
 	if db.flags.count()!=1:
 		dbInit()
-	return render_template('home.html')
+	return render_template('home.html', title='Home')
+
+@app.route("/myResults")
+def myResults():
+    data=getOneStudentJson()
+
+    return render_template('myResults.html', title='My Results',data=json.loads(data))
+
+@app.route("/classAnalysis")
+def classAnalysis():
+	return render_template('classAnalysis.html', title='Class Analysis')
+
+@app.route("/collegeAnalysis")
+def collegeAnalysis():
+	return render_template('collegeAnalysis.html', title='College Analysis')
+
+@app.route("/regionAnalysis")
+def regionAnalysis():
+	return render_template('regionAnalysis.html', title='Region Analysis')
+
 
 @app.route("/HomePage") #Ignore this route. Required for my system. Some stupid issue
 def stupidRedirect():
@@ -44,14 +63,7 @@ def stupidRedirect():
 
 @app.route("/api/oneStudent/<college_code>/<year>/<branch>/<int:regno>")
 def getOneStudent(college_code,year,branch,regno):
-	student = students.find_one({"usn" : (college_code + year
-		+branch + str(regno).zfill(3)).upper()})
-	if student:
-		return dumps(student) #dumps is used to convert bson format of mongodb to json
-	else :
-		student = student_results(college_code,year,branch,regno)
-		db.students.insert_one(student)
-		return dumps(student)
+    return getOneStudentJson(college_code=college_code,year=year,branch=branch,regno=regno)
 
 @app.route("/api/oneCollege/<college_code>")
 def getOneCollege(college_code):
