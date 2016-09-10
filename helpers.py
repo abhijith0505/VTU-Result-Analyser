@@ -204,16 +204,16 @@ def insert_section_results(college_code='1MV', year='14', branch='IS'):
         STUDENT_COUNT = STUDENT_COUNT + 1
         usn = college_code.upper()+year.upper()+branch.upper()+str(regno).zfill(3).upper()
         result = student_results(college_code=college_code, year=year, branch=branch, regno=regno)
-        print("Tried inserting : ")
-        print (usn)
+        #print("Tried inserting : ")
+        #print (usn)
         if (result != None):
             try:
                 db.students.insert_one(result)
-                print ("Inserted : ")
-                print (usn)
+                #print ("Inserted : ")
+                #print (usn)
             except :
                 pass
-            print ("\n---------------------------------------\n")
+            #print ("\n---------------------------------------\n")
         else:
             NONE_STUDENT_COUNT = NONE_STUDENT_COUNT + 1
         regno = regno +1

@@ -51,11 +51,19 @@ def getOneStudent(college_code,year,branch,regno):
 	else :
 		student = student_results(college_code,year,branch,regno)
 		db.students.insert_one(student)
-		return student
+		return dumps(student)
 
 @app.route("/api/oneCollege/<college_code>")
 def getOneCollege(college_code):
 	student = students.find({"usn" : {'$regex': ''+re.escape(college_code.upper())}})
+	if any(student):
+		 return dumps(student)	#dumps is used to convert bson format of mongodb to json
+	else :
+		return render_template('error.html')
+
+@app.route("/api/oneRegion/<region_code>")
+def getOneRegion(region_code):
+	student = students.find({"usn" : {'$regex': '^'+re.escape(region_code.upper())}})
 	if any(student):
 		 return dumps(student)	#dumps is used to convert bson format of mongodb to json
 	else :
