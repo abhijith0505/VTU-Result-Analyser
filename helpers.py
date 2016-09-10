@@ -6,8 +6,6 @@ import requests
 import urllib2
 import threading
 
-
-
 NUM_OF_STUDENTS = 150
 RESPONSE_COUNT = 0
 NUM_OF_COLLEGES = 172
