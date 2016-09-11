@@ -1,9 +1,10 @@
 from flask import Flask,render_template,redirect,url_for,json,make_response,request
-from helpers import insert_region_results,student_results,getOneStudentJson
+from helpers import insert_region_results,student_results,getOneStudentJson, insert_section_results
 from collections import OrderedDict
 from pymongo import MongoClient
 import json, re, requests
 from bson.json_util import dumps
+from multiprocessing import Pool
 
 app = Flask(__name__)
 
@@ -47,6 +48,13 @@ def setUSN():
         branch = USN[5:7]
         regno = USN[7:]
         data = getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
+
+
+        pool = Pool(processes=1)
+        pool.apply_async(insert_section_results,[college_code,year,branch])
+
+
+
         resp = make_response(render_template('myResults.html', title='My Results', data=json.loads(data)))
         resp.set_cookie('college_code', college_code)
         resp.set_cookie('year', year)
