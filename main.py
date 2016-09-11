@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url_for,json
+from flask import Flask,render_template,redirect,url_for,json,make_response,request
 from helpers import insert_region_results,student_results,getOneStudentJson
 from collections import OrderedDict
 from pymongo import MongoClient
@@ -38,9 +38,29 @@ def mainInit():
 		dbInit()
 	return render_template('home.html', title='Home')
 
+@app.route('/setUSN', methods = ['POST', 'GET'])
+def setUSN():
+    if request.method == 'POST':
+        USN = request.form['USN']
+        college_code = USN[0:3]
+        year = USN[3:5]
+        branch = USN[5:7]
+        regno = USN[7:]
+        data = getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
+        resp = make_response(render_template('myResults.html', title='My Results', data=json.loads(data)))
+        resp.set_cookie('college_code', college_code)
+        resp.set_cookie('year', year)
+        resp.set_cookie('branch', branch)
+        resp.set_cookie('regno', regno)
+        return resp
+
 @app.route("/myResults")
 def myResults():
-    data=getOneStudentJson()
+    college_code = request.cookies.get('college_code')
+    year = request.cookies.get('year')
+    branch = request.cookies.get('branch')
+    regno = request.cookies.get('regno')
+    data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
 
     return render_template('myResults.html', title='My Results',data=json.loads(data))
 
