@@ -2,21 +2,27 @@
 
 {% block main %}
 
-<div id="wrapper"class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+<div id="wrapper" class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
 </div>
 
-{{ data }}
+<script>
+    var name = [{{data[0].name}}];
+    var marks = [];
+    
+   {% for datum in data %}
+    {{ datum.total_marks | safe }}
+    {{ datum.name | safe }}
+   {% endfor %} 
+</script>
 
 {% endblock %}
+
 {% block scripts %}
-{{ super() }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/material-design-lite/1.2.1/material.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
 
 <script>
-    var categories = ['', 'Accessories', 'Audiophile', 'Camera & Photo', 'Cell Phones', 'Computers', 'eBook Readers', 'Gadgets', 'GPS & Navigation', 'Home Audio', 'Office Electronics', 'Portable Audio', 'Portable Video', 'Security & Surveillance',
-        'Service', 'Television & Video', 'Car & Vehicle'
-    ];
-
-    var dollars = [213, 209, 190, 179, 156, 209, 190, 179, 213, 209, 190, 179, 156, 209, 190, 190];
+    
 
     var colors = ['#0000b4', '#0082ca', '#0094ff', '#0d4bcf', '#0066AE', '#074285', '#00187B', '#285964', '#405F83', '#416545', '#4D7069', '#6E9985', '#7EBC89', '#0283AF', '#79BCBF', '#99C19E'];
 
@@ -31,22 +37,22 @@
 
     var tickVals = grid.map(function(d, i) {
         if (i > 0) {
-            return i * 10;
+            return i * 100;
         } else if (i === 0) {
             return "100";
         }
     });
 
     var xscale = d3.scale.linear()
-        .domain([10, 250])
+        .domain([100, 900])
         .range([0, 722]);
 
     var yscale = d3.scale.linear()
-        .domain([0, categories.length])
+        .domain([0, name.length])
         .range([0, 480]);
 
     var colorScale = d3.scale.quantize()
-        .domain([0, categories.length])
+        .domain([0, name.length])
         .range(colors);
 
     var canvas = d3.select('#wrapper')
@@ -94,7 +100,7 @@
         .scale(yscale)
         .tickSize(2)
         .tickFormat(function(d, i) {
-            return categories[i];
+            return name[i];
         })
         .tickValues(d3.range(17));
 
@@ -112,7 +118,7 @@
         .attr("transform", "translate(150,0)")
         .attr('id', 'bars')
         .selectAll('rect')
-        .data(dollars)
+        .data(marks)
         .enter()
         .append('rect')
         .attr('height', 19)
@@ -131,7 +137,7 @@
 
 
     var transit = d3.select("svg").selectAll("rect")
-        .data(dollars)
+        .data(marks)
         .transition()
         .duration(1000)
         .attr("width", function(d) {
@@ -140,7 +146,7 @@
 
     var transitext = d3.select('#bars')
         .selectAll('text')
-        .data(dollars)
+        .data(marks)
         .enter()
         .append('text')
         .attr({
@@ -152,7 +158,7 @@
             }
         })
         .text(function(d) {
-            return d + "$";
+            return d;
         }).style({
             'fill': '#fff',
             'font-size': '14px'

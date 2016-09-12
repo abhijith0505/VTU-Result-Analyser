@@ -195,6 +195,7 @@ def student_results(college_code='1MV', year='14', branch='IS', regno=45):
 def insert_section_results(college_code='1MV', year='14', branch='IS'):
     client = MongoClient(document_class=OrderedDict)
     db = client.results
+    flagValue = db.flags.find_one({"usn" : {'$regex': '^'+re.escape(region_code.upper())}})
     db.students.ensure_index('usn', unique=True)
     NONE_STUDENT_LIMIT = 20
     NONE_STUDENT_COUNT = 0

@@ -75,8 +75,9 @@ def classAnalysis():
         college_code = request.cookies.get('college_code')
         year = request.cookies.get('year')
         branch = request.cookies.get('branch')
-        data= dumps(students.find({'college_code':college_code, 'year':year, 'branch':branch}).sort('total_marks',-1))
-        return render_template('classAnalysis.html', title='Class Analysis', data= data)
+        data= students.find({'college_code':college_code, 'year':year, 'branch':branch},
+        	{"name":1, "total_marks":1}).sort('total_marks',-1)
+        return render_template('classAnalysis.html', title='Class Analysis', data=data)
     return redirect(url_for('mainInit'))
 
 @app.route("/collegeAnalysis")
