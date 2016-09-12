@@ -26,7 +26,6 @@ BRANCH_CODES = ['bt', 'cv', 'ee', 'ec', 'te', 'is', 'cs', 'me']
 
 YEAR = ['13', '14', '15']
 
-COLLEGE_CODES = ['1mv']
 
 
 @app.errorhandler(404)
@@ -35,8 +34,6 @@ def page_not_found(e):
 
 @app.route("/")
 def mainInit():
-	if db.flags.count()!=1:
-		dbInit()
 	return render_template('home.html', title='Home')
 
 @app.route('/myResults', methods = ['POST', 'GET'])
@@ -111,79 +108,6 @@ def getOneRegion(region_code):
 	else :
 		return render_template('error.html')
 
-
-def dbInit():
-	All_Regions = OrderedDict([
-					('bengaluru', []),
-					('mysuru', []),
-					('belagavi', []),
-					('kalaburgi', [])])
-
-	for BCodes in BENGALURU_COLLEGE_CODES:
-		BangCode = OrderedDict([
-					('college', BCodes),
-		            ('years', [])])
-		for year in YEAR:
-			Year = OrderedDict([
-					('year', year),
-		            ('branches', [])])
-			for branch in BRANCH_CODES:
-				 Branch = OrderedDict([
-				 		('branch', branch),
-				 		('flag', '0')])
-				 Year["branches"].append(Branch)
-			BangCode["years"].append(Year)
-		All_Regions['bengaluru'].append(BangCode)
-
-	for MCodes in MYSURU_COLLEGE_CODES:
-		MyCode = OrderedDict([
-					('college', MCodes),
-		            ('years', [])])
-		for year in YEAR:
-			Year = OrderedDict([
-					('year', year),
-		            ('branches', [])])
-			for branch in BRANCH_CODES:
-				 Branch = OrderedDict([
-				 		('branch', branch),
-				 		('flag', '0')])
-				 Year["branches"].append(Branch)
-			MyCode["years"].append(Year)
-		All_Regions['mysuru'].append(MyCode)
-
-	for BelCodes in BELAGAVI_COLLEGE_CODES:
-		BgCode = OrderedDict([
-					('college', BelCodes),
-		            ('years', [])])
-		for year in YEAR:
-			Year = OrderedDict([
-					('year', year),
-		            ('branches', [])])
-			for branch in BRANCH_CODES:
-				 Branch = OrderedDict([
-				 		('branch', branch),
-				 		('flag', '0')])
-				 Year["branches"].append(Branch)
-			BgCode["years"].append(Year)
-		All_Regions['belagavi'].append(BgCode)
-
-	for KCodes in KALABURGI_COLLEGE_CODES:
-		KCode = OrderedDict([
-					('college', KCodes),
-		            ('years', [])])
-		for year in YEAR:
-			Year = OrderedDict([
-					('year', year),
-		            ('branches', [])])
-			for branch in BRANCH_CODES:
-				 Branch = OrderedDict([
-				 		('branch', branch),
-				 		('flag', '0')])
-				 Year["branches"].append(Branch)
-			KCode["years"].append(Year)
-		All_Regions['kalaburgi'].append(KCode)
-
-	db.flags.insert(All_Regions)
 
 if __name__ == "__main__":
     app.run(debug = True)
