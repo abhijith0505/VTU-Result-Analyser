@@ -39,8 +39,8 @@ def mainInit():
 		dbInit()
 	return render_template('home.html', title='Home')
 
-@app.route('/setUSN', methods = ['POST', 'GET'])
-def setUSN():
+@app.route('/myResults', methods = ['POST', 'GET'])
+def myResults():
     if request.method == 'POST':
         USN = request.form['USN']
         college_code = USN[0:3]
@@ -63,17 +63,16 @@ def setUSN():
         resp.set_cookie('regno', regno)
         return resp
 
-@app.route("/myResults")
-def myResults():
-	if request.cookies.get('setUSNFlag'):
-	    college_code = request.cookies.get('college_code')
-	    year = request.cookies.get('year')
-	    branch = request.cookies.get('branch')
-	    regno = request.cookies.get('regno')
-	    data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
+    if request.method == 'GET':
+    	if request.cookies.get('setUSNFlag'):
+    	    college_code = request.cookies.get('college_code')
+    	    year = request.cookies.get('year')
+    	    branch = request.cookies.get('branch')
+    	    regno = request.cookies.get('regno')
+    	    data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
 
-	    return render_template('myResults.html', title='My Results',data=json.loads(data))
-	return redirect(url_for('mainInit'))
+    	    return render_template('myResults.html', title='My Results',data=json.loads(data))
+    	return redirect(url_for('mainInit'))
 
 @app.route("/classAnalysis")
 def classAnalysis():
