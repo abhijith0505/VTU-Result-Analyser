@@ -24,7 +24,7 @@ KALABURGI_COLLEGE_CODES = ['3ae', '3bk', '3br', '3gf', '3gu', '3gn', '3kc', '3kb
 
 BRANCH_CODES = ['bt', 'cv', 'ee', 'ec', 'te', 'is', 'cs', 'me']
 
-YEAR = ['13', '14', '15']
+YEAR = ['13', '14']
 
 
 
