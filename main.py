@@ -73,7 +73,9 @@ def myResults():
 
 @app.route("/classAnalysis")
 def classAnalysis():
-	return render_template('classAnalysis.html', title='Class Analysis')
+	if request.cookies.get('setUSNFlag'):
+		return render_template('classAnalysis.html', title='Class Analysis')
+	return redirect(url_for('mainInit'))
 
 @app.route("/collegeAnalysis")
 def collegeAnalysis():
