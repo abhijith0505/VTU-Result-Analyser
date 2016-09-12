@@ -56,6 +56,7 @@ def setUSN():
 
 
         resp = make_response(render_template('myResults.html', title='My Results', data=json.loads(data)))
+        resp.set_cookie('setUSNFlag', "1")
         resp.set_cookie('college_code', college_code)
         resp.set_cookie('year', year)
         resp.set_cookie('branch', branch)
@@ -64,13 +65,15 @@ def setUSN():
 
 @app.route("/myResults")
 def myResults():
-    college_code = request.cookies.get('college_code')
-    year = request.cookies.get('year')
-    branch = request.cookies.get('branch')
-    regno = request.cookies.get('regno')
-    data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
+	if request.cookies.get('setUSNFlag'):
+	    college_code = request.cookies.get('college_code')
+	    year = request.cookies.get('year')
+	    branch = request.cookies.get('branch')
+	    regno = request.cookies.get('regno')
+	    data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
 
-    return render_template('myResults.html', title='My Results',data=json.loads(data))
+	    return render_template('myResults.html', title='My Results',data=json.loads(data))
+	return redirect(url_for('mainInit'))
 
 @app.route("/classAnalysis")
 def classAnalysis():
