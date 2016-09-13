@@ -38,10 +38,10 @@ def mainInit():
 @app.route('/myResults', methods = ['POST', 'GET'])
 def myResults():
     if request.method == 'POST':
-        USN = request.form['USN']
-        college_code = USN[0:3]
-        year = USN[3:5]
-        branch = USN[5:7]
+        USN = request.form['USN'].upper()
+        college_code = USN[0:3].upper()
+        year = USN[3:5].upper()
+        branch = USN[5:7].upper()
         regno = USN[7:]
         data = getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
 
