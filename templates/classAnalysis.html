@@ -8,6 +8,7 @@
 <table class="table-fill">
 <thead>
 <tr>
+<th class="text-left">Rank</th>
 <th class="text-left">Name</th>
 <th class="text-left">Total Marks</th>
 </tr>
@@ -15,6 +16,7 @@
 <tbody class="table-hover">
 {% for datum in data[10:] %}
 <tr>
+<td class="text-left">{{ loop.index + 10 }}</td>
 <td class="text-left">{{ datum.name }}</td>
 <td class="text-left">{{ datum.total_marks}}</td>
 </tr>
