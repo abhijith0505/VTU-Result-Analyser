@@ -2,7 +2,7 @@
 
 {% block main %}
 
-<div class="mdl-color--white mdl-shadow--2dp mdl-cell  mdl-grid" style="margin-right: auto;margin-left: auto;margin-top: 7px;">
+<div class="mdl-color--white mdl-shadow--2dp mdl-cell  mdl-grid" style="margin-right: auto;margin-left: auto;margin-top: 70px;">
   <!-- Textfield with Floating Label -->
   <form action="/myResults", method="POST">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
@@ -11,6 +11,14 @@
     </div>
   </form>
 </div>
-
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <span class="flashes" style="display: table;margin: auto auto;margin-top:25px;">
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+    </span>
+  {% endif %}
+{% endwith %}
 
 {% endblock %}
