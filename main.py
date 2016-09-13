@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url_for,json,make_response,request
+from flask import Flask,flash,render_template,redirect,url_for,json,make_response,request
 from helpers import insert_region_results,student_results,getOneStudentJson, insert_section_results
 from collections import OrderedDict
 from pymongo import MongoClient
@@ -7,6 +7,7 @@ from bson.json_util import dumps
 from multiprocessing import Pool
 
 app = Flask(__name__)
+app.secret_key = 'aBcDeFg1@3$5'
 
 client = MongoClient()
 
@@ -32,7 +33,7 @@ def page_not_found(e):
 
 @app.route("/")
 def mainInit():
-    return render_template('home.html', title='Home')
+	return render_template('home.html', title='Home')
 
 @app.route('/myResults', methods = ['POST', 'GET'])
 def myResults():
@@ -67,6 +68,7 @@ def myResults():
             data=getOneStudentJson(college_code=college_code, year=year, branch=branch, regno=int(regno))
 
             return render_template('myResults.html', title='My Results',data=json.loads(data))
+        flash('Please Enter Your USN')
         return redirect(url_for('mainInit'))
 
 @app.route("/classAnalysis")
@@ -78,6 +80,7 @@ def classAnalysis():
         data= students.find({'college_code':college_code, 'year':year, 'branch':branch},
         	{"name":1, "total_marks":1}).sort('total_marks',-1)
         return render_template('classAnalysis.html', title='Class Analysis', data=data)
+    flash('Please Enter Your USN')
     return redirect(url_for('mainInit'))
 
 @app.route("/collegeAnalysis")
