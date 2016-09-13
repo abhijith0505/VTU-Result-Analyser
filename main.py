@@ -80,6 +80,18 @@ def classAnalysis():
         return render_template('classAnalysis.html', title='Class Analysis', data=data)
     return redirect(url_for('mainInit'))
 
+
+@app.route("/api/classAnalysis/<int:top_num>")
+def apiClassAnalysis(top_num):
+    if request.cookies.get('setUSNFlag'):
+        college_code = request.cookies.get('college_code')
+        year = request.cookies.get('year')
+        branch = request.cookies.get('branch')
+        data= dumps(students.find({'college_code':college_code, 'year':year, 'branch':branch},
+        	{"name":1, "total_marks":1}).sort('total_marks',-1).limit(top_num))
+        return data
+
+
 @app.route("/collegeAnalysis")
 def collegeAnalysis():
     return render_template('collegeAnalysis.html', title='College Analysis')
