@@ -31,6 +31,10 @@ YEAR = ['13', '14']
 def page_not_found(e):
     return render_template('error.html')
 
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('error.html'), 500
+
 @app.route("/")
 def mainInit():
 	return render_template('home.html', title='Home')
@@ -130,4 +134,4 @@ def getOneRegion(region_code):
 
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = False)
