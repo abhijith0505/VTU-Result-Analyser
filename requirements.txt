@@ -1,0 +1,5 @@
+Flask
+lxml
+requests
+pymongo
+urllib2
