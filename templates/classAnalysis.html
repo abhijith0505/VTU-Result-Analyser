@@ -22,9 +22,9 @@
                 </tr>
             </thead>
             <tbody class="table-hover">
-                {% for datum in data[10:] %}
+                {% for datum in data %}
                 <tr>
-                    <td class="text-left">{{ loop.index + 10 }}</td>
+                    <td class="text-left">{{ loop.index }}</td>
                     <td class="text-left">{{ datum.name }}</td>
                     <td class="text-left">{{ datum.total_marks}}</td>
                 </tr>
