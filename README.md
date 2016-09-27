@@ -41,5 +41,7 @@ To Do
 
  1. Finish the College Analysis section
  2. Finish the Region Analysis section
+ 3. Pulling results of Diploma Lateral Entry Students
+ 4. Pulling reval and backloggers' results.
 
 
