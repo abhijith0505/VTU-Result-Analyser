@@ -43,5 +43,6 @@ To Do
  2. Finish the Region Analysis section
  3. Pulling results of Diploma Lateral Entry Students
  4. Pulling reval and backloggers' results.
+ 5. 4th year marks don't appear as it has a different website structure.
 
 
