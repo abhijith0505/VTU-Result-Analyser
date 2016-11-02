@@ -44,5 +44,6 @@ To Do
  3. Pulling results of Diploma Lateral Entry Students
  4. Pulling reval and backloggers' results.
  5. 4th year marks don't appear as it has a different website structure.
+ 6. 2015 (New Scheme) marks and results don't appear
 
 
