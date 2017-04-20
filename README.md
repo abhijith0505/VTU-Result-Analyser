@@ -1,4 +1,4 @@
-VTU Result Analyser
+VTU Result Analyser (Deprecated)
 ===================
 
 
